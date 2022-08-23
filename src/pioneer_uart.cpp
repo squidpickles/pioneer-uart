@@ -5,11 +5,14 @@
 namespace pioneer_uart
 {
   PioneerWYT::PioneerWYT() {}
-  PioneerWYT::~PioneerWYT() {
+  PioneerWYT::~PioneerWYT()
+  {
     clearPendingCommand();
   }
-  #ifdef USE_ARDUINO
-  PioneerWYT::PioneerWYT(Stream &serial) : m_serial(&serial) {}
+#ifdef USE_ARDUINO
+  PioneerWYT::PioneerWYT(Stream &serial) : m_serial(&serial)
+  {
+  }
   bool PioneerWYT::pollState()
   {
     if (!m_serial)
@@ -44,9 +47,12 @@ namespace pioneer_uart
     clearPendingCommand();
     return pollState();
   }
-  #endif
+#endif
 
-  bool PioneerWYT::isPowerOn() const { return m_state.power; }
+  bool PioneerWYT::isPowerOn() const
+  {
+    return m_state.power;
+  }
   bool PioneerWYT::isEco() const { return m_state.eco; }
   bool PioneerWYT::isDisplayOn() const { return m_state.display; }
   bool PioneerWYT::isStrong() const { return m_state.strong; }
@@ -132,7 +138,8 @@ namespace pioneer_uart
 
   void PioneerWYT::clearPendingCommand()
   {
-    if (m_pending_command) {
+    if (m_pending_command)
+    {
       delete m_pending_command;
       m_pending_command = nullptr;
     }
