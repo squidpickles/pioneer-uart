@@ -81,6 +81,7 @@ namespace pioneer_uart
             RightFlow = 0xa0,
         };
 
+/** All commands sent to the WYT MCU begin with this header */
         union WytCommandHeader
         {
             struct
@@ -97,6 +98,7 @@ namespace pioneer_uart
             uint8_t bytes[HEADER_SIZE];
         };
 
+        /** A request to sent the current MCU state */
         union WytQueryCommand
         {
             struct
@@ -111,8 +113,10 @@ namespace pioneer_uart
             uint8_t bytes[QUERY_COMMAND_SIZE];
         };
 
+        /** Creates a new query request to be sent */
         WytQueryCommand query_command();
 
+        /** A request to update the MCU state to the one in this object. */
         typedef union
         {
             struct
@@ -176,6 +180,13 @@ namespace pioneer_uart
         WytStateCommand from_bytes(const uint8_t buffer[STATE_COMMAND_SIZE]);
         WytStateCommand from_response(const pioneer_uart::response::WytResponse &response);
 
+        /**
+         * Creates a new command header (part of a larger command) to send to the WYT MCU.
+         * 
+         * @param source should always be `Controller` for commands
+         * @param command  the command to send
+         * @param size the size of the parameters to the command.
+         */
         WytCommandHeader new_header(const Source &source, const Command &command, const uint8_t size);
     }
 #else

@@ -90,6 +90,7 @@ namespace pioneer_uart
         };
 
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+        /** Holds a response from the WYT MCU describing its current operating state. */
         typedef union
         {
             struct
