@@ -17,12 +17,12 @@ namespace pioneer_uart
 
     uint8_t checksum(const WytStateCommand &command)
     {
-      uint32_t sum = 0;
+      uint8_t result = 0;
       for (size_t idx = 0; idx < STATE_COMMAND_SIZE - 1; ++idx)
       {
-        sum += command.bytes[idx];
+        result ^= command.bytes[idx];
       }
-      return static_cast<uint8_t>(sum % 256);
+      return result;
     }
 
     WytCommandHeader new_header(const Source &source, const Command &command, const uint8_t size)
