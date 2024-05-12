@@ -18,7 +18,7 @@ namespace pioneer_uart
     /**
      * Main interface for interacting with a Pioneer WYT control MCU.
      * The internal object state, accessed via `is*` and `get*` methods, is
-     * populated by `pollState()` or `setStateFromBytes()`.
+     * populated by `pollState()` or `deserializeState()`.
      * The pending command state, updated using the `set*` methods, is seeded
      * from the internal object state when the first `set*` method is called,
      * and then gets sent to the Pioneer unit on `applySettings()`, or by using
