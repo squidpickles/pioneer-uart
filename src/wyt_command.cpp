@@ -5,7 +5,7 @@ namespace pioneer_uart
 {
   namespace command
   {
-    void set_checksum(WytStateCommand *command)
+    void set_checksum(WytSetStateCommand *command)
     {
       if (!command)
       {
@@ -15,7 +15,7 @@ namespace pioneer_uart
       command->checksum = sum;
     }
 
-    uint8_t checksum(const WytStateCommand &command)
+    uint8_t checksum(const WytSetStateCommand &command)
     {
       uint8_t result = 0;
       for (size_t idx = 0; idx < STATE_COMMAND_SIZE - 1; ++idx)
@@ -43,15 +43,15 @@ namespace pioneer_uart
       return command;
     }
 
-    WytStateCommand from_bytes(const uint8_t buffer[STATE_COMMAND_SIZE])
+    WytSetStateCommand from_bytes(const uint8_t buffer[STATE_COMMAND_SIZE])
     {
-      WytStateCommand command;
+      WytSetStateCommand command;
       memcpy(command.bytes, buffer, STATE_COMMAND_SIZE);
       return command;
     }
-    WytStateCommand from_response(const response::WytResponse &response)
+    WytSetStateCommand from_response(const response::WytResponse &response)
     {
-      WytStateCommand command;
+      WytSetStateCommand command;
       WytCommandHeader header = new_header(Source::Controller, Command::SetState, 0x1d);
       command.header = header;
       command.eco = response.eco;
@@ -99,7 +99,7 @@ namespace pioneer_uart
         command.fan_speed = FanSpeed::MidLow;
         break;
       }
-      set_chosen_temperature_degrees_c(command, response::get_chosen_temperature_degrees_c(response));
+      set_chosen_temperature(command, response::get_chosen_temperature_degrees_c(response));
       command.unknown8[0] = 0x80;
       command.sleep = static_cast<SleepMode>(response.sleep);
       command.up_down_flow = static_cast<UpDownFlow>(response.up_down_flow);

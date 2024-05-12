@@ -120,7 +120,7 @@ namespace pioneer_uart
   }
   SleepMode PioneerWYT::getSleepMode() const { return m_state.sleep; }
 
-  bool PioneerWYT::getCommandBytes(uint8_t bytes[STATE_COMMAND_SIZE]) const
+  bool PioneerWYT::serializePendingState(uint8_t bytes[STATE_COMMAND_SIZE]) const
   {
     if (!m_pending_command)
     {
@@ -131,7 +131,7 @@ namespace pioneer_uart
     return true;
   }
 
-  void PioneerWYT::setStateFromBytes(const uint8_t bytes[RESPONSE_SIZE])
+  void PioneerWYT::deserializeState(const uint8_t bytes[RESPONSE_SIZE])
   {
     m_state = from_bytes(bytes);
   }

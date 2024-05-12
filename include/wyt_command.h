@@ -163,22 +163,22 @@ namespace pioneer_uart
                 uint8_t checksum;
             } __attribute__((packed));
             uint8_t bytes[STATE_COMMAND_SIZE];
-        } WytStateCommand;
+        } WytSetStateCommand;
 
-        inline void set_chosen_temperature_degrees_c(WytStateCommand &command, const float temp)
+        inline void set_chosen_temperature(WytSetStateCommand &command, const float temp_c)
         {
-            assert(temp >= 10.0 && temp <= 30.0);
+            assert(temp_c >= 10.0 && temp_c <= 30.0);
 
-            uint8_t temp_double = static_cast<uint8_t>(temp * 2);
+            uint8_t temp_double = static_cast<uint8_t>(temp_c * 2);
             uint8_t temp_whole = temp_double / 2;
             bool temp_half = temp_double % 2;
-            command.set_temperature_whole = temp_whole + 111;
+            command.set_temperature_whole = temp_whole + 0x6f;
             command.set_temperature_half = temp_half;
         }
-        uint8_t checksum(const WytStateCommand &command);
-        void set_checksum(WytStateCommand *command);
-        WytStateCommand from_bytes(const uint8_t buffer[STATE_COMMAND_SIZE]);
-        WytStateCommand from_response(const pioneer_uart::response::WytResponse &response);
+        uint8_t checksum(const WytSetStateCommand &command);
+        void set_checksum(WytSetStateCommand *command);
+        WytSetStateCommand from_bytes(const uint8_t buffer[STATE_COMMAND_SIZE]);
+        WytSetStateCommand from_response(const pioneer_uart::response::WytResponse &response);
 
         /**
          * Creates a new command header (part of a larger command) to send to the WYT MCU.

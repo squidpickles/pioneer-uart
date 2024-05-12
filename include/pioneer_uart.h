@@ -22,7 +22,7 @@ namespace pioneer_uart
      * The pending command state, updated using the `set*` methods, is seeded
      * from the internal object state when the first `set*` method is called,
      * and then gets sent to the Pioneer unit on `applySettings()`, or by using
-     * `getCommandBytes()` and sending the command manually.
+     * `serializePendingState()` and sending the command manually.
      */
     class PioneerWYT
     {
@@ -84,7 +84,7 @@ namespace pioneer_uart
          *
          * @return false if there is no new state command pending.
          */
-        bool getCommandBytes(uint8_t bytes[STATE_COMMAND_SIZE]) const;
+        bool serializePendingState(uint8_t bytes[STATE_COMMAND_SIZE]) const;
         /**
          * Sets the state of this object from bytes returned from the serial line.
          * This is analogous to the `pollState()` function, if this instance is managing serial connections.
@@ -92,7 +92,7 @@ namespace pioneer_uart
          *
          * @param bytes response from the Pioneer MCU containing the current device state
          */
-        void setStateFromBytes(const uint8_t bytes[RESPONSE_SIZE]);
+        void deserializeState(const uint8_t bytes[RESPONSE_SIZE]);
         /** Returns which mode (heat, cooling, fan only, etc) the unit is in, as of the last state update. */
         OpMode getMode() const;
         /** Returns the fan speed setting for the unit, as of the last state update. */
